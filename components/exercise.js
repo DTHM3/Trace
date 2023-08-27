@@ -4,11 +4,13 @@ import Title from './exerciseComponents/title';
 import Set from './exerciseComponents/set';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateWorkout, } from '../redux/workoutAction';
+import store from '../redux/store';
 
 const Exercise = (props) => {
     const workoutId = parseInt(props.id.slice(0, props.id.search("_")));
     const exerciseId = parseInt(props.id.slice(props.id.search("_") + 1));
     const workout = useSelector(state => state.workouts.find((w) =>  w.id === workoutId)).workout;
+    const dispatch = useDispatch();
 
     const [setNum, setSetNum] = React.useState(1);
     const [isActive, setIsActive] = React.useState(false);
@@ -34,8 +36,8 @@ const Exercise = (props) => {
             repsCopy[setNum - 1] = newVal["nativeEvent"]["text"];
             setReps(repsCopy);
             workout.reps[exerciseId][setNum - 1] = repsCopy;
-            useDispatch(updateWorkout(workout));
         }
+        dispatch(updateWorkout(workoutId, workout));
 
     }
     const changeWeight = (newVal) => {
@@ -44,7 +46,7 @@ const Exercise = (props) => {
             weightsCopy[setNum - 1] = newVal["nativeEvent"]["text"];
             setWeights(weightsCopy);
             workout.weights[exerciseId][setNum - 1] = weightsCopy;
-            useDispatch(updateWorkout(workout));
+            useDispatch(updateWorkout(workoutId, workout));
         }
     }
     const changeRpe = (newVal) => {

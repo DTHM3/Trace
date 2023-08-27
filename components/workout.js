@@ -2,7 +2,7 @@ import { StyleSheet, ScrollView, Text, Modal, View, Button, TextInput, Pressable
 import React, { useState } from 'react';
 import Exercise from './exercise';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateWorkout } from '../redux/workoutAction';
+import { updateWorkout } from '../redux/action';
 
 const Workout = (props) => {
     const [modalVisible, setModalVisible] = useState(false);

@@ -2,7 +2,7 @@ import { StyleSheet, ScrollView, Text, Modal, View, Button, TextInput, Touchable
 import React, {useState} from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addWorkout } from '../redux/workoutAction';
+import { addWorkout } from '../redux/action';
 
 
 const WorkoutMenu = (props) => {
