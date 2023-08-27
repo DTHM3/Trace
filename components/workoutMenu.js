@@ -2,23 +2,25 @@ import { StyleSheet, ScrollView, Text, Modal, View, Button, TextInput, Touchable
 import React, {useState} from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addWorkout } from '../redux/action';
+import { addWorkout } from '../redux/workoutAction';
 
 
 const WorkoutMenu = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const dispatch = useDispatch();
 
     const workouts = useSelector(state => state.workouts);
 
     let tempWorkoutName = "";
 
     const handleAddWorkout = (workout) => {
-        useDispatch(addWorkout(workout));
+        dispatch(addWorkout(workout));
     }
 
     return (
         <ScrollView style={styles.container}>
             <View style={styles.touchable}><Text style={styles.title}>Workouts</Text></View>
+            {console.log(workouts)}
             {workouts.map((w, i) => <TouchableOpacity key={i} style={styles.touchable} onPress={() => {
                 props.navigation.navigate('Workout Stack', {
                     screen: 'Workout',

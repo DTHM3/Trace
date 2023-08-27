@@ -2,13 +2,18 @@ import { StyleSheet, ScrollView, Text, Modal, View, Button, TextInput, Pressable
 import React, { useState } from 'react';
 import Exercise from './exercise';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateWorkout } from '../redux/action';
+import { updateWorkout } from '../redux/workoutAction';
 
 const Workout = (props) => {
-    const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
+  const id = props.route.params.id;
 
-    const id = props.route.params.id;
-    const workout = useSelector(state => state.workouts.find((w) =>  w.id === id)).workout;
+  const [modalVisible, setModalVisible] = useState(false);
+  const workout = useSelector(state => state.workouts.find((w) =>  w.id === id)).workout;
+  
+  const tempWorkout = workout;
+
+  
 
 
     const tempExercise = {
@@ -30,12 +35,15 @@ const Workout = (props) => {
 
 
     const addExercise = () => {
-      workout['exerciseNames'] = [...workout.exerciseNames, tempExercise['name']];
-      workout['numSets'] = ([...workout.numSets, tempExercise['sets']])
-      workout['reps'] = ([...workout.reps, Array(tempExercise['sets']).fill(tempExercise['reps'])]);
-      workout['weights'] = ([...workout.weights, Array(tempExercise['sets']).fill(tempExercise['weight'])]);
-      workout['rpes'] = ([...workout.rpes, Array(tempExercise['sets']).fill(tempExercise['rpe'])]);
-      useDispatch(updateWorkout(id, workout));
+      tempWorkout.name = "updated",
+      tempWorkout.exerciseNames = [...workout.exerciseNames, tempExercise['name']],
+      tempWorkout.numSets = [...workout.numSets, tempExercise['sets']],
+      tempWorkout.reps = [...workout.reps, Array(tempExercise['sets']).fill(tempExercise['reps'])],
+      tempWorkout.weights = [...workout.weights, Array(tempExercise['sets']).fill(tempExercise['weight'])],
+      tempWorkout.rpes = [...workout.rpes, Array(tempExercise['sets']).fill(tempExercise['rpe'])]
+      console.log ("temp")
+      console.log(tempWorkout);
+      dispatch(updateWorkout(id, tempWorkout));
       resetTempExercise();
     }
 

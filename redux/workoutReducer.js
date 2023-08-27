@@ -79,17 +79,16 @@ const initialState = {
 const workoutsReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_WORKOUT: {
-          const {workout} = action.payload;
           return {
             ...state, 
-            workouts: [...state.workouts, {id: ++idCounter, workout: workout} ]
+            workouts: [...state.workouts, {id: ++idCounter, workout: action.payload.workout} ]
           }
         }
         case UPDATE_WORKOUT: {
-          const index = state.workouts.findIndex(payload.id);
+          const index = state.workouts.findIndex((i) => i.id === action.payload.id);
           return {
             ...state,
-            workouts: [...state.workouts.slice(0, index), {id: payload.id, workout: payload.workout}, ...state.workouts.slice(index + 1)]
+            workouts: [...state.workouts.slice(0, index), {id: action.payload.id, workout: action.payload.workout}, ...state.workouts.slice(index + 1)]
           }
         }
         default: return state;
