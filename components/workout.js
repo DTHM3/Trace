@@ -11,7 +11,7 @@ const Workout = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const workout = useSelector(state => state.workouts.find((w) =>  w.id === id)).workout;
   
-  const tempWorkout = workout;
+  const tempWorkout = {...workout};
 
   
 
