@@ -35,7 +35,6 @@ const Workout = (props) => {
 
 
     const addExercise = () => {
-      tempWorkout.name = "updated",
       tempWorkout.exerciseNames = [...workout.exerciseNames, tempExercise['name']],
       tempWorkout.numSets = [...workout.numSets, tempExercise['sets']],
       tempWorkout.reps = [...workout.reps, Array(tempExercise['sets']).fill(tempExercise['reps'])],
@@ -52,7 +51,7 @@ const Workout = (props) => {
         <ScrollView>
           <Text style={styles.title}>{workout.name}</Text>
             
-          {workout['exerciseNames'].map((exercise, i) => <Exercise key={id + "_" + i} id={id + "_" + i} exerciseName={exercise} exerciseNum={i + 1} isActive={i == 0} numSets={workout.numSets[i]} reps={workout.reps[i]} weights={workout.weights[i]} rpes={workout.rpes[i]} />)}
+          {workout['exerciseNames'].map((exercise, i) => <Exercise key={exercise + "_" + id + "_" + i} id={id + "_" + i} />)}
           <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>

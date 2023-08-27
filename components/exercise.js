@@ -12,7 +12,10 @@ const Exercise = (props) => {
     const workout = useSelector(state => state.workouts.find((w) =>  w.id === workoutId)).workout;
     const dispatch = useDispatch();
 
-    const [setNum, setSetNum] = React.useState(1);
+    const tempWorkout = {...workout};
+
+    let setNum = 1;
+
     const [isActive, setIsActive] = React.useState(false);
 
     const [numSets, setNumSets] = React.useState(props.numSets);
@@ -22,23 +25,22 @@ const Exercise = (props) => {
 
     const nextSet = () => {
         if (setNum < numSets) {
-            setSetNum(setNum + 1);
+            setNum++;
         }
     }
     const prevSet = () => {
         if (setNum > 1) {
-            setSetNum(setNum - 1);
+            setNum--;
         }
     }
     const changeReps = (newVal) => {
         if (newVal["nativeEvent"]["text"].trim()) {
             let repsCopy = reps;
-            repsCopy[setNum - 1] = newVal["nativeEvent"]["text"];
+            repsCopy[setNum - 1] = parseInt(newVal["nativeEvent"]["text"]);
             setReps(repsCopy);
-            workout.reps[exerciseId][setNum - 1] = repsCopy;
+            tempWorkout.reps[exerciseId][setNum - 1] = reps;
         }
-        dispatch(updateWorkout(workoutId, workout));
-
+        dispatch(updateWorkout(workoutId, tempWorkout));
     }
     const changeWeight = (newVal) => {
         if (newVal["nativeEvent"]["text"].trim()) {
