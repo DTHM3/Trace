@@ -35,7 +35,6 @@ const Workout = (props) => {
 
 
     const addExercise = () => {
-      tempWorkout.name = "updated",
       tempWorkout.exerciseNames = [...workout.exerciseNames, tempExercise['name']],
       tempWorkout.numSets = [...workout.numSets, tempExercise['sets']],
       tempWorkout.reps = [...workout.reps, Array(tempExercise['sets']).fill(tempExercise['reps'])],
