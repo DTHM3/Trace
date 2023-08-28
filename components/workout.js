@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, Text, Modal, View, Button, TextInput, Pressable } from 'react-native';
+import { StyleSheet, ScrollView, Text, Modal, View, TextInput, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import Exercise from './exercise';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,8 +31,6 @@ const Workout = (props) => {
       tempExercise['weight'] = 0;
       tempExercise['rpe'] = 0;
     }
-
-
 
     const addExercise = () => {
       tempWorkout.exerciseNames = [...workout.exerciseNames, tempExercise['name']],

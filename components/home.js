@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button, Alert } from 'react-native';
-import { useSelector } from 'react-redux';
+import { View, Button } from 'react-native';
 
 const Home = (props) => {
 

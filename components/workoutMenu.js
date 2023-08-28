@@ -20,7 +20,7 @@ const WorkoutMenu = (props) => {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.touchable}><Text style={styles.title}>Workouts</Text></View>
-            {console.log(workouts[0].workout.reps)}
+            {/* console.log(workouts[0].workout.reps) */}
             {workouts.map((w, i) => <TouchableOpacity key={i} style={styles.touchable} onPress={() => {
                 props.navigation.navigate('Workout Stack', {
                     screen: 'Workout',

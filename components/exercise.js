@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Button, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import Title from './exerciseComponents/title';
-import Set from './exerciseComponents/set';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateWorkout, } from '../redux/workoutAction';
-import store from '../redux/store';
 
 const Exercise = (props) => {
     const workoutId = parseInt(props.id.slice(0, props.id.search("_")));
@@ -14,51 +12,36 @@ const Exercise = (props) => {
 
     const tempWorkout = {...workout};
 
-    let setNum = 1;
+    const [setNum, setSetNum] = useState(1);
+    const numSets = workout.numSets[exerciseId];
 
     const [isActive, setIsActive] = React.useState(false);
 
-    const [numSets, setNumSets] = React.useState(props.numSets);
-    const [reps, setReps] = React.useState(props.reps);
-    const [weights, setWeights] = React.useState(props.weights);
-    const [rpes, setRpes] = React.useState(props.rpes);
-
-    const nextSet = () => {
-        if (setNum < numSets) {
-            setNum++;
-        }
-    }
-    const prevSet = () => {
-        if (setNum > 1) {
-            setNum--;
-        }
-    }
     const changeReps = (newVal) => {
         if (newVal["nativeEvent"]["text"].trim()) {
-            let repsCopy = reps;
-            repsCopy[setNum - 1] = parseInt(newVal["nativeEvent"]["text"]);
-            setReps(repsCopy);
-            tempWorkout.reps[exerciseId][setNum - 1] = reps;
+            const newReps = parseInt(newVal["nativeEvent"]["text"].trim());
+            tempWorkout.reps = [...workout.reps.slice(0, exerciseId), 
+                [...workout.reps[exerciseId].slice(0, setNum - 1), newReps, ...workout.reps[exerciseId].slice(setNum)], 
+                ...workout.reps.slice(exerciseId + 1)];
         }
         dispatch(updateWorkout(workoutId, tempWorkout));
     }
     const changeWeight = (newVal) => {
         if (newVal["nativeEvent"]["text"].trim()) {
-            let weightsCopy = weights;
-            weightsCopy[setNum - 1] = newVal["nativeEvent"]["text"];
-            setWeights(weightsCopy);
-            workout.weights[exerciseId][setNum - 1] = weightsCopy;
-            useDispatch(updateWorkout(workoutId, workout));
+            const newWeight = parseInt(newVal["nativeEvent"]["text"].trim());
+            tempWorkout.weights = [...workout.weights.slice(0, exerciseId), 
+                [...workout.weights[exerciseId].slice(0, setNum - 1), newWeight, ...workout.weights[exerciseId].slice(setNum)], 
+                ...workout.weights.slice(exerciseId + 1)];
         }
+        dispatch(updateWorkout(workoutId, tempWorkout));
     }
     const changeRpe = (newVal) => {
         if (newVal["nativeEvent"]["text"].trim()) {
             if (Number(newVal["nativeEvent"]["text"].trim()) <= 10) {
-                let rpesCopy = rpes;
-                rpesCopy[setNum - 1] = newVal["nativeEvent"]["text"];
-                setRpes(rpesCopy);
-                workout.rpes[exerciseId][setNum - 1] = rpesCopy;
-                useDispatch(updateWorkout(workout));
+                const newRpe = parseInt(newVal["nativeEvent"]["text"].trim());
+                tempWorkout.rpes = [...workout.rpes.slice(0, exerciseId), 
+                    [...workout.rpes[exerciseId].slice(0, setNum - 1), newReps, ...workout.rpes[exerciseId].slice(setNum)], 
+                    ...workout.rpes.slice(exerciseId + 1)];
             }
             else {
                 Alert.alert('Invalid RPE', 'RPE must be a number below 10', {text: 'OK'});
@@ -77,39 +60,41 @@ const Exercise = (props) => {
         return (
             <View style={styles.containerActive}>
                 <TouchableOpacity onPress={toggleActive} style={styles.touchable}>
-                    <Title exerciseName={props.exerciseName} exerciseNum={props.exerciseNum} />
+                    <Title exerciseName={workout.exerciseNames[exerciseId]} exerciseNum={exerciseId + 1} />
                 </TouchableOpacity>
                     
                 
                 <View style={styles.row}>
                     <View style={styles.container}>
-                        <Set value={setNum} numSets={10} />
-                    </View> 
+                        <Text style={styles.section}>Set</Text>
+                        <TextInput style={styles.sectionInput} placeholder={setNum.toString()} defaultValue={setNum.toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={3} onEndEditing={text => setSetNum(parseInt(text))} />
+                    </View>
                     
                     {/* Reps */}
                     <View style={styles.container}>
                         <Text style={styles.section}>Reps</Text>
-                        <TextInput style={styles.sectionInput} placeholder={reps[setNum - 1].toString()} defaultValue={reps[setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={3} onEndEditing={text => changeReps(text)} />
+                        <TextInput style={styles.sectionInput} placeholder={workout.reps[exerciseId][setNum - 1].toString()} defaultValue={workout.reps[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={3} onEndEditing={text => changeReps(text)} />
                     </View>
     
                     {/* Weight */}
                     <View style={styles.container}>
                         <Text style={styles.section}>Weight</Text>
-                        <TextInput style={styles.sectionInput} placeholder={weights[setNum - 1].toString()} defaultValue={weights[setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={4} onEndEditing={text => changeWeight(text)} />
+                        <TextInput style={styles.sectionInput} placeholder={workout.weights[exerciseId][setNum - 1].toString()} defaultValue={workout.weights[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={4} onEndEditing={text => changeWeight(text)} />
                     </View>
                     
                     {/* RPE */}
                     <View style={styles.container}>
                         <Text style={styles.section}>RPE</Text>
-                        <TextInput style={styles.sectionInput} placeholder={rpes[setNum - 1].toString()} defaultValue={rpes[setNum - 1].toString()} keyboardType='numeric' inputMode='numeric' returnKeyType='done' maxLength={4} onEndEditing={text => changeRpe(text)} />
+                        <TextInput style={styles.sectionInput} placeholder={workout.rpes[exerciseId][setNum - 1].toString()} defaultValue={workout.rpes[exerciseId][setNum - 1].toString()} keyboardType='numeric' inputMode='numeric' returnKeyType='done' maxLength={4} onEndEditing={text => changeRpe(text)} />
                     </View>
     
                 </View>
                 <View style={styles.row}>
-                    <TouchableOpacity onPress={prevSet} >
+                    <TouchableOpacity onPress={() => {if(setNum > 1) setSetNum(setNum - 1)}} >
                         <Image style={styles.button} source={require('../assets/left-arrow.png')} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={nextSet} >
+
+                    <TouchableOpacity onPress={() => {if(setNum < numSets) setSetNum(setNum + 1)}} >
                         <Image style={styles.button} source={require('../assets/right-arrow.png')} />
                     </TouchableOpacity>
                 </View>
@@ -119,7 +104,7 @@ const Exercise = (props) => {
     } else {
         return (
             <TouchableOpacity onPress={toggleActive} style={styles.containerInactive}>
-                <Title exerciseName={props.exerciseName} exerciseNum={props.exerciseNum} style={styles.title} />
+                <Title exerciseName={workout.exerciseNames[exerciseId]} exerciseNum={exerciseId + 1} />
             </TouchableOpacity>
         );
         
