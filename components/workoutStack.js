@@ -1,5 +1,4 @@
-import { StyleSheet, ScrollView, Text, Modal, View, Button, TextInput, TouchableOpacity} from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import WorkoutMenu from './workoutMenu';

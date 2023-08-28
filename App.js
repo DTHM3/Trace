@@ -3,6 +3,7 @@ import { StyleSheet, SafeAreaView} from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import WorkoutStack from './components/workoutStack';
 import Home from './components/home';
@@ -19,8 +20,18 @@ export default function App() {
       <NavigationContainer>
         <SafeAreaView style={styles.container}>
           <Tab.Navigator >
-            <Tab.Screen name="Home" component={Home} options={{headerShown: false}} />
-            <Tab.Screen name="Workout Stack" options={{headerShown: false}}>
+            <Tab.Screen name="Home" component={Home} options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="home" color={color} size={size} />
+              )
+            }} />
+            <Tab.Screen name="Lift" options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="weight" color={color} size={size} />
+              )
+              }}>
               {(props) => <WorkoutStack {...props} />}
             </Tab.Screen>
           </Tab.Navigator>
