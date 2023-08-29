@@ -7,7 +7,7 @@ import { updateWorkout, } from '../redux/workoutAction';
 const Exercise = (props) => {
     const workoutId = parseInt(props.id.slice(0, props.id.search("_")));
     const exerciseId = parseInt(props.id.slice(props.id.search("_") + 1));
-    const workout = useSelector(state => state.workouts.find((w) =>  w.id === workoutId)).workout;
+    const workout = useSelector(state => state.workouts.workouts.find((w) =>  w.id === workoutId)).workout;
     const dispatch = useDispatch();
 
     const tempWorkout = {...workout};

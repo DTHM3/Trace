@@ -14,7 +14,7 @@ const WorkoutStack = (props) => {
                 {(props) => <WorkoutMenu {...props} />}
             </Stack.Screen>
             <Stack.Screen name="Workout">
-                {(props) => <Workout {...props} workoutName={JSON.stringify(props.route.params['workoutName'])} exerciseNames={props.route.params['exerciseNames']} numSets={props.route.params['numSets']} reps={props.route.params['reps']} weights={props.route.params['weights']} rpes={props.route.params['rpes']} />}
+                {(props) => <Workout {...props} />}
             </Stack.Screen>
         </Stack.Navigator>
     );
