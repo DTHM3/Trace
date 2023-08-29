@@ -9,7 +9,7 @@ const WorkoutMenu = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const dispatch = useDispatch();
 
-    const workouts = useSelector(state => state.workouts);
+    const workouts = useSelector(state => state.workouts.workouts);
 
     let tempWorkoutName = "";
 
@@ -22,7 +22,7 @@ const WorkoutMenu = (props) => {
             <View style={styles.touchable}><Text style={styles.title}>Workouts</Text></View>
             {/* console.log(workouts[0].workout.reps) */}
             {workouts.map((w, i) => <TouchableOpacity key={i} style={styles.touchable} onPress={() => {
-                props.navigation.navigate('Workout Stack', {
+                props.navigation.navigate('Lift', {
                     screen: 'Workout',
                     params: {
                         id: w.id,
@@ -30,16 +30,6 @@ const WorkoutMenu = (props) => {
             }} >
             <Text>{w.workout.name}</Text>
             </TouchableOpacity> )}
-            {/* Temporary test */}
-            <TouchableOpacity key={"01"} style={styles.touchable} onPress={() => {
-                props.navigation.navigate('Workout Stack', {
-                    screen: 'Workout',
-                    params: {
-                        id: workouts[0].id,
-                }},)
-            }} >
-            <Text>{workouts[0].workout.name}</Text>
-            </TouchableOpacity>
 
             <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
                 <View style={styles.centeredView}>

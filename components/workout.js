@@ -9,7 +9,7 @@ const Workout = (props) => {
   const id = props.route.params.id;
 
   const [modalVisible, setModalVisible] = useState(false);
-  const workout = useSelector(state => state.workouts.find((w) =>  w.id === id)).workout;
+  const workout = useSelector(state => state.workouts.workouts.find((w) =>  w.id === id)).workout;
   
   const tempWorkout = {...workout};
 
