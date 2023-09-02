@@ -1,9 +1,9 @@
 import { ADD_EXERCISE } from "./exerciseAction";
 
-let idCounter = 0;
+let exerciseIdCounter = 0;
 
 const initialState = {
-    exercises: [{id: ++idCounter, exercise: "exercise1"}, {id: ++idCounter, exercise: "exercise2"}, {id: ++idCounter, exercise: "exercise3"}, {id: ++idCounter, exercise: "exercise4"}, {id: ++idCounter, exercise: "exercise5"}, {id: ++idCounter, exercise: "exercise6"}, {id: ++idCounter, exercise: "exercise7"}, {id: ++idCounter, exercise: "exercise8"}]
+    exercises: [{id: ++exerciseIdCounter, exercise: "exercise1"}, {id: ++exerciseIdCounter, exercise: "exercise2"}, {id: ++exerciseIdCounter, exercise: "exercise3"}, {id: ++exerciseIdCounter, exercise: "exercise4"}, {id: ++exerciseIdCounter, exercise: "exercise5"}, {id: ++exerciseIdCounter, exercise: "exercise6"}, {id: ++exerciseIdCounter, exercise: "exercise7"}, {id: ++exerciseIdCounter, exercise: "exercise8"}]
 };
 
 const exercisesReducer = (state = initialState, action) => {
@@ -11,7 +11,7 @@ const exercisesReducer = (state = initialState, action) => {
         case ADD_EXERCISE: {
             return {
                 ...state, 
-                exercises: [...state.exercises, {id: ++idCounter, exercise: action.payload.exercise} ]
+                exercises: [...state.exercises, {id: ++exerciseIdCounter, exercise: action.payload.exercise} ]
             }
         }
         default: return state;

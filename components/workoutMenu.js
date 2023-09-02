@@ -3,18 +3,26 @@ import React, {useState} from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addWorkout } from '../redux/workoutAction';
+import store from '../redux/store';
 
 
 const WorkoutMenu = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const dispatch = useDispatch();
 
     const workouts = useSelector(state => state.workouts.workouts);
 
     let tempWorkoutName = "";
 
     const handleAddWorkout = (workout) => {
-        dispatch(addWorkout(workout));
+        const addedWorkout = {
+            name: workout,
+            exerciseNames:[],
+            numSets:[],
+            reps:[],
+            weights:[],
+            rpes:[],
+        }
+        store.dispatch(addWorkout(addedWorkout));
     }
 
     return (
@@ -40,7 +48,7 @@ const WorkoutMenu = (props) => {
                             <TextInput style={styles.nameInput} placeholder='Workout Name' returnKeyType='done' onEndEditing={(val) => {tempWorkoutName = val["nativeEvent"]["text"].trim();}} />
                         </View>
                         <View style={styles.row}>
-                            <Pressable style={styles.modalButton} onPress={() => {setModalVisible(!modalVisible);}} title='Add' >
+                            <Pressable style={styles.modalButton} onPress={() => {handleAddWorkout(tempWorkoutName); setModalVisible(!modalVisible);}} title='Add' >
                                 <Text>Add</Text>
                             </Pressable>
                             <Pressable style={styles.modalButton} onPress={() => {setModalVisible(!modalVisible); }} title='Cancel'>
