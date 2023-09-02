@@ -19,19 +19,19 @@ const WorkoutMenu = (props) => {
 
     return (
         <ScrollView style={styles.container}>
-            <View style={styles.touchable}><Text style={styles.title}>Workouts</Text></View>
             {/* console.log(workouts[0].workout.reps) */}
             {workouts.map((w, i) => <TouchableOpacity key={i} style={styles.touchable} onPress={() => {
                 props.navigation.navigate('Lift', {
+                    id: w.id,
                     screen: 'Workout',
                     params: {
                         id: w.id,
                 }},)
             }} >
-            <Text>{w.workout.name}</Text>
+                <Text>{w.workout.name}</Text>
             </TouchableOpacity> )}
 
-            <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
+            <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }} >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text>Add Workout</Text>
@@ -77,9 +77,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        borderBottomWidth: 3,
         alignSelf: "stretch",
-        height: 100
+        height: 100,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        margin: 5,
+        borderRadius: 10
     },
     title: {
         fontSize: 50,
@@ -87,7 +96,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     row: {
-      flexDirection: 'row',
+        flexDirection: 'row',
     },
     centeredView: {
         flex: 1,
@@ -96,39 +105,39 @@ const styles = StyleSheet.create({
         marginTop: 22,
     },
     modalView: {
-      margin: 20,
-      backgroundColor: 'white',
-      borderRadius: 20,
-      padding: 35,
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
     sectionInput: {
-      textAlign: 'center',
-      fontSize: 25,
-      marginVertical: 10,
-      backgroundColor: '#c9c9c7',
-      width: 100,
-      borderRadius: 10,
-      padding: 5,
-      marginHorizontal: 10,
+        textAlign: 'center',
+        fontSize: 25,
+        marginVertical: 10,
+        backgroundColor: '#c9c9c7',
+        width: 100,
+        borderRadius: 10,
+        padding: 5,
+        marginHorizontal: 10,
     },
     nameInput: {
-      textAlign: 'center',
-      fontSize: 25,
-      marginVertical: 10,
-      backgroundColor: '#c9c9c7',
-      width: 250,
-      borderRadius: 10,
-      padding: 5,
-      marginHorizontal: 10,
+        textAlign: 'center',
+        fontSize: 25,
+        marginVertical: 10,
+        backgroundColor: '#c9c9c7',
+        width: 250,
+        borderRadius: 10,
+        padding: 5,
+        marginHorizontal: 10,
     },
     modalButton: {
         flex: 1,
@@ -146,9 +155,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 12,
         paddingHorizontal: 32,
+        borderRadius: 4,
         elevation: 3,
         backgroundColor: 'white',
-        borderBottomWidth: 3,
+        marginHorizontal: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        margin: 5,
+        borderRadius: 10
     }
 })
 

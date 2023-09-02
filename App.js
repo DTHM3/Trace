@@ -21,7 +21,8 @@ export default function App() {
         <SafeAreaView style={styles.container}>
           <Tab.Navigator >
             <Tab.Screen name="Home" component={Home} options={{
-              headerShown: false,
+              headerTitleAlign: 'center',
+              headerShown: true,
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="home" color={color} size={size} />
               )

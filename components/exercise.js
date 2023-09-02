@@ -40,7 +40,7 @@ const Exercise = (props) => {
             if (Number(newVal["nativeEvent"]["text"].trim()) <= 10) {
                 const newRpe = parseInt(newVal["nativeEvent"]["text"].trim());
                 tempWorkout.rpes = [...workout.rpes.slice(0, exerciseId), 
-                    [...workout.rpes[exerciseId].slice(0, setNum - 1), newReps, ...workout.rpes[exerciseId].slice(setNum)], 
+                    [...workout.rpes[exerciseId].slice(0, setNum - 1), newRpe, ...workout.rpes[exerciseId].slice(setNum)], 
                     ...workout.rpes.slice(exerciseId + 1)];
             }
             else {
@@ -58,34 +58,31 @@ const Exercise = (props) => {
 
     if (isActive) {
         return (
-            <View style={styles.containerActive}>
-                <TouchableOpacity onPress={toggleActive} style={styles.touchable}>
+            <TouchableOpacity onPress={toggleActive} style={styles.containerActive}>
+                <View style={styles.touchable}>
                     <Title exerciseName={workout.exerciseNames[exerciseId]} exerciseNum={exerciseId + 1} />
-                </TouchableOpacity>
+                </View>
                     
                 
                 <View style={styles.row}>
-                    <View style={styles.container}>
-                        <Text style={styles.section}>Set</Text>
-                        <TextInput style={styles.sectionInput} placeholder={setNum.toString()} defaultValue={setNum.toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={3} onEndEditing={text => setSetNum(parseInt(text))} />
-                    </View>
+                    
                     
                     {/* Reps */}
                     <View style={styles.container}>
                         <Text style={styles.section}>Reps</Text>
-                        <TextInput style={styles.sectionInput} placeholder={workout.reps[exerciseId][setNum - 1].toString()} defaultValue={workout.reps[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={3} onEndEditing={text => changeReps(text)} />
+                        <TextInput style={styles.sectionInput} placeholder={workout.reps[exerciseId][setNum - 1].toString()} defaultValue={workout.reps[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={5} onEndEditing={text => changeReps(text)} />
                     </View>
     
                     {/* Weight */}
                     <View style={styles.container}>
                         <Text style={styles.section}>Weight</Text>
-                        <TextInput style={styles.sectionInput} placeholder={workout.weights[exerciseId][setNum - 1].toString()} defaultValue={workout.weights[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={4} onEndEditing={text => changeWeight(text)} />
+                        <TextInput style={styles.sectionInput} placeholder={workout.weights[exerciseId][setNum - 1].toString()} defaultValue={workout.weights[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={5} onEndEditing={text => changeWeight(text)} />
                     </View>
                     
                     {/* RPE */}
                     <View style={styles.container}>
                         <Text style={styles.section}>RPE</Text>
-                        <TextInput style={styles.sectionInput} placeholder={workout.rpes[exerciseId][setNum - 1].toString()} defaultValue={workout.rpes[exerciseId][setNum - 1].toString()} keyboardType='numeric' inputMode='numeric' returnKeyType='done' maxLength={4} onEndEditing={text => changeRpe(text)} />
+                        <TextInput style={styles.sectionInput} placeholder={workout.rpes[exerciseId][setNum - 1].toString()} defaultValue={workout.rpes[exerciseId][setNum - 1].toString()} keyboardType='numeric' inputMode='numeric' returnKeyType='done' maxLength={2} onEndEditing={text => changeRpe(text)} />
                     </View>
     
                 </View>
@@ -94,12 +91,17 @@ const Exercise = (props) => {
                         <Image style={styles.button} source={require('../assets/left-arrow.png')} />
                     </TouchableOpacity>
 
+                    <View>
+                        <Text style={styles.setTitle}>Set</Text>
+                        <Text style={styles.set}>{setNum}</Text>
+                    </View>
+
                     <TouchableOpacity onPress={() => {if(setNum < numSets) setSetNum(setNum + 1)}} >
                         <Image style={styles.button} source={require('../assets/right-arrow.png')} />
                     </TouchableOpacity>
                 </View>
     
-            </View>
+            </TouchableOpacity>
         );
     } else {
         return (
@@ -119,25 +121,58 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    set: {
+        fontSize: 30,
+        fontWeight: '400',
+        textAlign: 'center',
+        fontWeight: '700',
+    },
+    setTitle: {
+        fontSize: 20,
+        fontWeight: '400',
+        textAlign: 'center',
+    },
     containerActive: {
-        flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        borderTopWidth: 6,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        margin: 5,
+        borderRadius: 10
     },
     touchable: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        borderBottomWidth: 6,
+        borderBottomWidth: 2,
+        borderColor: '#ebebeb',
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10
     },
     containerInactive: {
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        borderTopWidth: 3,
+        alignSelf: "stretch",
+        height: 75,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        margin: 5,
+        borderRadius: 10
     },
     title: {
         backgroundColor: '#c9c9c7',
@@ -154,11 +189,13 @@ const styles = StyleSheet.create({
     sectionInput: {
         textAlign: 'center',
         fontSize: 25,
-        marginVertical: 10,
-        backgroundColor: '#c9c9c7',
-        width: 70,
+        backgroundColor: '#ebebeb',
+        flex: 1,
         borderRadius: 10,
         padding: 5,
+        alignSelf: 'stretch',
+        marginHorizontal: 5,
+        marginBottom: 10
     },
     button: {
         width: 64,
