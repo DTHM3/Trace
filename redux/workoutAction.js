@@ -1,6 +1,6 @@
 export const ADD_WORKOUT = "ADD_WORKOUT";
 export const UPDATE_WORKOUT = "UPDATE_WORKOUT";
-export const UPDATE_WORKOUT_ITEM = "UPDATE_WORKOUT_ITEM";
+export const REMOVE_WORKOUT = "REMOVE_WORKOUT";
 
 export const addWorkout = (workout) => {
     return {
@@ -17,6 +17,15 @@ export const updateWorkout = (id, workout) => {
         payload: {
             id: id,
             workout: workout
+        }
+    }
+}
+
+export const removeWorkout = (id) => {
+    return {
+        type: REMOVE_WORKOUT,
+        payload: {
+            id: id
         }
     }
 }

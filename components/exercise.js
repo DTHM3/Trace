@@ -194,7 +194,7 @@ const Exercise = (props) => {
         
                     </View>
                     <View style={styles.row}>
-                        <TouchableOpacity style={styles.delete} onPress={() => Alert.alert("Delete this Exercise?", undefined, [{text: "Delete", onPress: removeExercise}])}>
+                        <TouchableOpacity style={styles.delete} onPress={() => removeSet()}>
                             <View>
                                 <Text style={{textAlign: 'center', fontWeight: 700, color: 'white'}}>REMOVE SET</Text>
                             </View>

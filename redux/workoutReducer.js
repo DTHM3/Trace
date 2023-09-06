@@ -1,4 +1,4 @@
-import { ADD_WORKOUT, UPDATE_WORKOUT } from "./workoutAction";
+import { ADD_WORKOUT, UPDATE_WORKOUT, REMOVE_WORKOUT } from "./workoutAction";
 
 let idCounter = 0;
 
@@ -90,6 +90,13 @@ const workoutsReducer = (state = initialState, action) => {
           return {
             ...state,
             workouts: [...state.workouts.slice(0, index), {id: action.payload.id, workout: action.payload.workout}, ...state.workouts.slice(index + 1)]
+          }
+        }
+        case REMOVE_WORKOUT: {
+          const index = state.workouts.findIndex((i) => i.id === action.payload.id);
+          return {
+            ...state,
+            workouts: [...state.workouts.slice(0, index), ...state.workouts.slice(index + 1)]
           }
         }
         default: return state;

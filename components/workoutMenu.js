@@ -1,10 +1,11 @@
 import { StyleSheet, ScrollView, Text, Modal, View, Alert, TextInput, TouchableOpacity, Pressable} from 'react-native';
 import React, {useState} from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { addWorkout } from '../redux/workoutAction';
+import { useSelector } from 'react-redux';
+import { addWorkout, removeWorkout } from '../redux/workoutAction';
 import store from '../redux/store';
 
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const WorkoutMenu = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -25,9 +26,12 @@ const WorkoutMenu = (props) => {
         store.dispatch(addWorkout(addedWorkout));
     }
 
+    const handleRemoveWorkout = (id) => {
+        store.dispatch(removeWorkout(id));
+    }
+
     return (
         <ScrollView style={styles.container}>
-            {/* console.log(workouts[0].workout.reps) */}
             {workouts.map((w, i) => <TouchableOpacity key={i} style={styles.touchable} onPress={() => {
                 props.navigation.navigate('Lift', {
                     id: w.id,
@@ -36,7 +40,16 @@ const WorkoutMenu = (props) => {
                         id: w.id,
                 }},)
             }} >
-                <Text>{w.workout.name}</Text>
+                <View style={styles.row}>
+                    <View style={{flex: 1}}></View>
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{textAlign: 'center'}}>{w.workout.name}</Text>
+                    </View>
+                    <TouchableOpacity style={{flex: 1, alignItems: 'flex-end'}} onPress={() => Alert.alert("Delete this Workout?", undefined, [{text: "Cancel", style: 'cancel'}, {text: "Delete", onPress: handleRemoveWorkout}], {cancelable: true})}>
+                        <MaterialCommunityIcons name="trash-can-outline" color={'gray'} size={32} style={{marginHorizontal: 10}}/>
+                    </TouchableOpacity>
+                </View>
+                
             </TouchableOpacity> )}
 
             <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }} >
