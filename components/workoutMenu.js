@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, Text, Modal, View, Button, TextInput, TouchableOpacity, Pressable} from 'react-native';
+import { StyleSheet, ScrollView, Text, Modal, View, Alert, TextInput, TouchableOpacity, Pressable} from 'react-native';
 import React, {useState} from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -48,14 +48,20 @@ const WorkoutMenu = (props) => {
                             <TextInput style={styles.nameInput} placeholder='Workout Name' returnKeyType='done' onEndEditing={(val) => {tempWorkoutName = val["nativeEvent"]["text"].trim();}} />
                         </View>
                         <View style={styles.row}>
-                            <Pressable style={styles.modalButton} onPress={() => {handleAddWorkout(tempWorkoutName); setModalVisible(!modalVisible);}} title='Add' >
+                            <Pressable style={styles.modalButton} onPress={() => {
+                                if (tempWorkoutName) {
+                                    handleAddWorkout(tempWorkoutName); 
+                                    setModalVisible(!modalVisible);
+                                } else {
+                                    Alert.alert("New Workout Needs a Name")
+                                }
+                                }} title='Add' >
                                 <Text>Add</Text>
                             </Pressable>
                             <Pressable style={styles.modalButton} onPress={() => {setModalVisible(!modalVisible); }} title='Cancel'>
                                 <Text>Cancel</Text>
                             </Pressable>
                         </View>
-                            
                     </View>
                 </View>
           </Modal>

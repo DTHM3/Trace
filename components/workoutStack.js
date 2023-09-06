@@ -31,8 +31,4 @@ const WorkoutStack = (props) => {
     );
 }
 
-const styles = StyleSheet.create({
-    
-})
-
 export default WorkoutStack;

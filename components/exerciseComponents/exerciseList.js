@@ -1,9 +1,10 @@
-import { StyleSheet, View, Text, TouchableHighlight, FlatList, Alert } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 
-import React, {useState} from 'react';
+import React from 'react';
 
 import { useSelector } from 'react-redux';
 
+import createExerciseButton from './createExerciseButton';
 import ExerciseListItem from './exerciseListItem';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,9 +15,9 @@ const ExerciseList = (props) => {
     
     return (
         <SafeAreaView style={styles.exerciseList}>
-            <FlatList style={{marginBottom: 10}} data={exercises} renderItem={({item, index}) => (
+            <FlatList style={{marginBottom: 10}} data={exercises} renderItem={({item}) => (
                 <ExerciseListItem toggleModal={props.toggleModal} workoutId={props.workoutId} id={item.id} exerciseName={item.exercise} />
-            )}></FlatList>
+            )} ListHeaderComponent={createExerciseButton} />
         </SafeAreaView>
     )
 }
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: "stretch",
-        height: 100,
+        height: 75,
         shadowColor: '#000',
         shadowOffset: {
           width: 0,

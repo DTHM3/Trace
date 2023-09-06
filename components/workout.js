@@ -5,6 +5,7 @@ import ExerciseList from './exerciseComponents/exerciseList';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateWorkout } from '../redux/workoutAction';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Workout = (props) => {
   const dispatch = useDispatch();
@@ -53,12 +54,12 @@ const Workout = (props) => {
         <ScrollView>            
           {workout['exerciseNames'].map((exercise, i) => <Exercise key={exercise + "_" + id + "_" + i} id={id + "_" + i} workoutId={id} />)}
           <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
-            <View style={styles.centeredView}>
+            <SafeAreaView style={styles.centeredView}>
               <View style={styles.modalView}>
                 <TouchableOpacity onPress={toggleModal}><Text style={styles.title}>Add Exercise</Text></TouchableOpacity>
                 <ExerciseList workoutId={id} toggleModal={toggleModal} />
               </View>
-            </View>
+            </SafeAreaView>
           </Modal>
           <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
             <Text>Add Exercise</Text>

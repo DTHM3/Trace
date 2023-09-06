@@ -45,13 +45,13 @@ const ExerciseListItem = (props) => {
             <TouchableOpacity style={styles.touchableExpanded} onPress={() => setIsExpanded(!isExpanded)}>
                 <Text style={styles.exerciseTitleExpanded}>{props.exerciseName}</Text>
                 <View style={{flexDirection: 'row', flex: 1}}>
-                    <TextInput placeholder="Sets" style={styles.sectionInput} onEndEditing={(val) => {tempExercise['sets'] = parseInt(val["nativeEvent"]["text"].trim());}} />
-                    <TextInput placeholder="Reps"style={styles.sectionInput} onEndEditing={(val) => {tempExercise['reps'] = parseInt(val["nativeEvent"]["text"].trim());}} />
+                    <TextInput inputMode="numeric" placeholder="Sets" style={styles.sectionInput} onEndEditing={(val) => {tempExercise['sets'] = parseInt(val["nativeEvent"]["text"].trim());}} />
+                    <TextInput inputMode="numeric" placeholder="Reps"style={styles.sectionInput} onEndEditing={(val) => {tempExercise['reps'] = parseInt(val["nativeEvent"]["text"].trim());}} />
                     
                 </View>
                 <View style={{flexDirection: 'row', flex: 1}}>
-                    <TextInput placeholder="Weight" style={styles.sectionInput} onEndEditing={(val) => {tempExercise['weight'] = parseInt(val["nativeEvent"]["text"].trim());}} />
-                    <TextInput placeholder="RPE" style={styles.sectionInput} onEndEditing={(val) => {tempExercise['rpe'] = parseInt(val["nativeEvent"]["text"].trim());}} />
+                    <TextInput inputMode="numeric" placeholder="Weight" style={styles.sectionInput} onEndEditing={(val) => {tempExercise['weight'] = parseInt(val["nativeEvent"]["text"].trim());}} />
+                    <TextInput inputMode="numeric" placeholder="RPE" style={styles.sectionInput} onEndEditing={(val) => {tempExercise['rpe'] = parseInt(val["nativeEvent"]["text"].trim());}} />
                 </View>
                 <View style={{flexDirection: 'row', flex: 1}}>
                     <TouchableOpacity style={styles.button} onPress={() => {addExercise(); props.toggleModal()}}><Text>Add</Text></TouchableOpacity>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: "stretch",
-        height: 75,
+        height: 'auto',
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -99,14 +99,15 @@ const styles = StyleSheet.create({
         elevation: 5,
         marginHorizontal: 5,
         marginVertical: 5,
-        borderRadius: 10
+        borderRadius: 10,
+        padding: '7%'
     },
     touchableExpanded: {
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: "stretch",
-        height: 250,
+        height: 'auto',
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -147,7 +148,8 @@ const styles = StyleSheet.create({
           elevation: 5,
           margin: 10,
           marginHorizontal: 40,
-          borderRadius: 10
+          borderRadius: 10,
+          padding: '2%'
     },
 })
 
