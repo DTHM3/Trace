@@ -154,7 +154,7 @@ const Exercise = (props) => {
                         </View>
                         
 
-                        <TouchableOpacity style={styles.delete} onPress={() => Alert.alert("Delete this Exercise?", undefined, [{text: "Cancel"}, {text: "Delete", onPress: removeExercise}], {cancelable: true})}>
+                        <TouchableOpacity style={styles.delete} onPress={() => Alert.alert("Delete this Exercise?", undefined, [{text: "Cancel", style: 'cancel'}, {text: "Delete", onPress: removeExercise}], {cancelable: true})}>
                             <View>
                                 <Text style={{textAlign: 'center', fontWeight: 700, color: 'white'}}>DELETE EXERCISE</Text>
                             </View>
@@ -214,7 +214,7 @@ const Exercise = (props) => {
                                 <Image style={styles.button} source={require('../assets/plus.png')} />
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={styles.delete} onPress={() => removeExercise()}>
+                        <TouchableOpacity style={styles.delete} onPress={() => Alert.alert("Delete this Exercise?", undefined, [{text: "Cancel", style: 'cancel'}, {text: "Delete", onPress: removeExercise}], {cancelable: true})}>
                             <View>
                                 <Text style={{textAlign: 'center', fontWeight: 700, color: 'white'}}>DELETE EXERCISE</Text>
                             </View>
