@@ -30,7 +30,7 @@ export default function App() {
             <Tab.Screen name="Lift" options={{
               headerShown: false,
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="weight" color={color} size={size} />
+                <MaterialCommunityIcons name="weight-lifter" color={color} size={size} />
               )
               }}>
               {(props) => <WorkoutStack {...props} />}
