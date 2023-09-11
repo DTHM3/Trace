@@ -14,40 +14,9 @@ const Workout = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const workout = useSelector(state => state.workouts.workouts.find((w) =>  w.id === id)).workout;
 
-  const tempWorkout = {...workout};
-
   const toggleModal = useCallback(() => {
     setModalVisible(!modalVisible);
   })
-
-
-    const tempExercise = {
-      name: "",
-      sets: 1,
-      reps: 0,
-      weight: 0,
-      rpe: 0
-    };
-
-    const resetTempExercise = () => {
-      tempExercise['name'] = "";
-      tempExercise['sets'] = 1;
-      tempExercise['reps'] = 0;
-      tempExercise['weight'] = 0;
-      tempExercise['rpe'] = 0;
-    }
-
-    const addExercise = () => {
-      tempWorkout.exerciseNames = [...workout.exerciseNames, tempExercise['name']],
-      tempWorkout.numSets = [...workout.numSets, tempExercise['sets']],
-      tempWorkout.reps = [...workout.reps, Array(tempExercise['sets']).fill(tempExercise['reps'])],
-      tempWorkout.weights = [...workout.weights, Array(tempExercise['sets']).fill(tempExercise['weight'])],
-      tempWorkout.rpes = [...workout.rpes, Array(tempExercise['sets']).fill(tempExercise['rpe'])]
-      console.log ("temp")
-      console.log(tempWorkout);
-      dispatch(updateWorkout(id, tempWorkout));
-      resetTempExercise();
-    }
 
     return (
       

@@ -61,7 +61,7 @@ const WorkoutMenu = (props) => {
                             <TextInput style={styles.nameInput} placeholder='Workout Name' returnKeyType='done' onEndEditing={(val) => {tempWorkoutName = val["nativeEvent"]["text"].trim();}} />
                         </View>
                         <View style={styles.row}>
-                            <Pressable style={styles.modalButton} onPress={() => {
+                            <TouchableOpacity style={styles.modalButton} onPress={() => {
                                 if (tempWorkoutName) {
                                     handleAddWorkout(tempWorkoutName); 
                                     setModalVisible(!modalVisible);
@@ -70,19 +70,19 @@ const WorkoutMenu = (props) => {
                                 }
                                 }} title='Add' >
                                 <Text>Add</Text>
-                            </Pressable>
-                            <Pressable style={styles.modalButton} onPress={() => {setModalVisible(!modalVisible); }} title='Cancel'>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.modalButton} onPress={() => {setModalVisible(!modalVisible); }} title='Cancel'>
                                 <Text>Cancel</Text>
-                            </Pressable>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
-          </Modal>
-          <Pressable style={styles.button} title='Add Workout' onPress={() => {
+            </Modal>
+            <TouchableOpacity style={styles.button} title='Add Workout' onPress={() => {
             setModalVisible(!modalVisible);
             }} > 
                 <Text>Add Workout</Text>
-            </Pressable>
+            </TouchableOpacity>
         </ScrollView>
         
     );
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         elevation: 3,
         backgroundColor: 'white',
+        margin: 5,
     },
     button: {
         flex: 1,
