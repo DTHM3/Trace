@@ -22,7 +22,7 @@ const WorkoutStack = (props) => {
         } else return "Workout";
     }
     return (
-        <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
+        <Stack.Navigator screenOptions={{headerTitleAlign: 'center', headerStyle: { backgroundColor: '#0B0B0A' }, headerTintColor: '#B9B1D2',} }>
             <Stack.Screen name="Workouts" >
                 {(props) => <WorkoutMenu {...props} />}
             </Stack.Screen>

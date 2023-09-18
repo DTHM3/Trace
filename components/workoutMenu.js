@@ -43,10 +43,10 @@ const WorkoutMenu = (props) => {
                 <View style={styles.row}>
                     <View style={{flex: 1}}></View>
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{textAlign: 'center'}}>{w.workout.name}</Text>
+                        <Text style={{textAlign: 'center', fontWeight: '600', fontSize: 25, color: '#D9D9D4'}}>{w.workout.name}</Text>
                     </View>
                     <TouchableOpacity style={{flex: 1, alignItems: 'flex-end'}} onPress={() => Alert.alert("Delete this Workout?", undefined, [{text: "Cancel", style: 'cancel'}, {text: "Delete", onPress: handleRemoveWorkout}], {cancelable: true})}>
-                        <MaterialCommunityIcons name="trash-can-outline" color={'gray'} size={32} style={{marginHorizontal: 10}}/>
+                        <MaterialCommunityIcons name="trash-can-outline" color={'#D9D9D4'} size={32} style={{marginHorizontal: 10}}/>
                     </TouchableOpacity>
                 </View>
                 
@@ -81,7 +81,7 @@ const WorkoutMenu = (props) => {
             <TouchableOpacity style={styles.button} title='Add Workout' onPress={() => {
             setModalVisible(!modalVisible);
             }} > 
-                <Text>Add Workout</Text>
+                <Text style={{fontWeight: '500', color: '#0B0B0A'}}>Add Workout</Text>
             </TouchableOpacity>
         </ScrollView>
         
@@ -92,6 +92,7 @@ const WorkoutMenu = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#20201D'
     },
     title:{
         fontSize: 40,
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     },
     touchable: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#363630',
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: "stretch",
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         margin: 5,
-        borderRadius: 10
+        borderRadius: 10,
     },
     title: {
         fontSize: 50,
@@ -196,7 +197,9 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         margin: 5,
-        borderRadius: 10
+        borderRadius: 10,
+        backgroundColor: '#B9B1D2'
+
     }
 })
 

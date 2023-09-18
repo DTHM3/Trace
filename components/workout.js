@@ -20,7 +20,7 @@ const Workout = (props) => {
 
     return (
       
-        <ScrollView>            
+        <ScrollView style={{backgroundColor: '#20201D'}}>            
           {workout['exerciseNames'].map((exercise, i) => <Exercise key={exercise + "_" + id + "_" + i} id={id + "_" + i} workoutId={id} />)}
           <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => {Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
             <SafeAreaView style={styles.centeredView}>
@@ -30,9 +30,9 @@ const Workout = (props) => {
               </View>
             </SafeAreaView>
           </Modal>
-          <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
-            <Text>Add Exercise</Text>
-          </Pressable>
+          <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
+            <Text style={{fontWeight: '500', color: '#0B0B0A'}}>Add Exercise</Text>
+          </TouchableOpacity>
         </ScrollView>
     );
 }
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     borderBottomWidth: 2,    
     borderColor: '#ebebeb',
-    marginBottom: 10
+    marginBottom: 10,
   },
   row: {
     flexDirection: 'row',
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'white',
+    backgroundColor: '#B9B1D2',
     marginHorizontal: 10,
     shadowColor: '#000',
     shadowOffset: {

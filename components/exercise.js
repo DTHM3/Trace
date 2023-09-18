@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Alert } fro
 import Title from './exerciseComponents/title';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateWorkout, } from '../redux/workoutAction';
+import Entypo from 'react-native-vector-icons/Entypo'
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from "react-native-popup-menu";
 
 const Exercise = (props) => {
     const workoutId = parseInt(props.id.slice(0, props.id.search("_")));
@@ -29,6 +31,7 @@ const Exercise = (props) => {
             [...workout.rpes[exerciseId], tempWorkout.rpes[exerciseId][setNum - 1]], 
             ...workout.rpes.slice(exerciseId + 1)];
         dispatch(updateWorkout(workoutId, tempWorkout));
+        setSetNum(numSets + 1);
     }
 
     const removeSet = () => {
@@ -46,7 +49,6 @@ const Exercise = (props) => {
         if (setNum == numSets) setSetNum(setNum - 1);
         
         dispatch(updateWorkout(workoutId, tempWorkout));
-        console.log(numSets)
     }
 
     const removeExercise = () => {
@@ -102,127 +104,69 @@ const Exercise = (props) => {
     }
 
     if (isActive) {
-        if (setNum != numSets) {
-            return (
-                <TouchableOpacity style={styles.containerActive} onPress={toggleActive}>
-                    <View style={styles.touchable}>
-                        <Title exerciseName={workout.exerciseNames[exerciseId]} exerciseNum={exerciseId + 1} />
+        return (
+            <TouchableOpacity style={styles.containerActive} onPress={toggleActive}>
+                <View style={styles.touchable}>
+                    <Title exerciseName={workout.exerciseNames[exerciseId]} exerciseNum={exerciseId + 1} />
+                </View>
+                <View style={styles.row}>
+                    
+                    
+                    {/* Reps */}
+                    <View style={styles.container}>
+                        <Text style={styles.section}>Reps</Text>
+                        <TextInput style={styles.sectionInput} placeholder={workout.reps[exerciseId][setNum - 1].toString()} defaultValue={workout.reps[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={5} onEndEditing={text => changeReps(text)} />
                     </View>
-                    <View style={styles.row}>
-                        
-                        
-                        {/* Reps */}
-                        <View style={styles.container}>
-                            <Text style={styles.section}>Reps</Text>
-                            <TextInput style={styles.sectionInput} placeholder={workout.reps[exerciseId][setNum - 1].toString()} defaultValue={workout.reps[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={5} onEndEditing={text => changeReps(text)} />
-                        </View>
-        
-                        {/* Weight */}
-                        <View style={styles.container}>
-                            <Text style={styles.section}>Weight</Text>
-                            <TextInput style={styles.sectionInput} placeholder={workout.weights[exerciseId][setNum - 1].toString()} defaultValue={workout.weights[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={5} onEndEditing={text => changeWeight(text)} />
-                        </View>
-                        
-                        {/* RPE */}
-                        <View style={styles.container}>
-                            <Text style={styles.section}>RPE</Text>
-                            <TextInput style={styles.sectionInput} placeholder={workout.rpes[exerciseId][setNum - 1].toString()} defaultValue={workout.rpes[exerciseId][setNum - 1].toString()} keyboardType='numeric' inputMode='numeric' returnKeyType='done' maxLength={2} onEndEditing={text => changeRpe(text)} />
-                        </View>
-        
+    
+                    {/* Weight */}
+                    <View style={styles.container}>
+                        <Text style={styles.section}>Weight</Text>
+                        <TextInput style={styles.sectionInput} placeholder={workout.weights[exerciseId][setNum - 1].toString()} defaultValue={workout.weights[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={5} onEndEditing={text => changeWeight(text)} />
                     </View>
-                    <View style={styles.row}>
-                        
-                        <TouchableOpacity style={styles.delete} onPress={() => removeSet()}>
-                            <View>
-                                <Text style={{textAlign: 'center', fontWeight: 700, color: 'white'}}>REMOVE SET</Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <View style={{flexDirection: 'row', flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-                            <TouchableOpacity onPress={() => {if(setNum > 1) setSetNum(setNum - 1)}} >
-                                <Image style={styles.button} source={require('../assets/left-arrow.png')} />
-                            </TouchableOpacity>
-
-                            <View>
-                                <Text style={styles.setTitle}>Set</Text>
-                                <Text style={styles.set}>{setNum}</Text>
-                            </View>
-        
-                            <TouchableOpacity onPress={() => {if(setNum < numSets) setSetNum(setNum + 1)}} >
-                                <Image style={styles.button} source={require('../assets/right-arrow.png')} />
-                            </TouchableOpacity>
-                        </View>
-                        
-
-                        <TouchableOpacity style={styles.delete} onPress={() => Alert.alert("Delete this Exercise?", undefined, [{text: "Cancel", style: 'cancel'}, {text: "Delete", onPress: removeExercise}], {cancelable: true})}>
-                            <View>
-                                <Text style={{textAlign: 'center', fontWeight: 700, color: 'white'}}>DELETE EXERCISE</Text>
-                            </View>
-                        </TouchableOpacity>
-
+                    
+                    {/* RPE */}
+                    <View style={styles.container}>
+                        <Text style={styles.section}>RPE</Text>
+                        <TextInput style={styles.sectionInput} placeholder={workout.rpes[exerciseId][setNum - 1].toString()} defaultValue={workout.rpes[exerciseId][setNum - 1].toString()} keyboardType='numeric' inputMode='numeric' returnKeyType='done' maxLength={2} onEndEditing={text => changeRpe(text)} />
                     </View>
-                </TouchableOpacity>
-            );
-        }
-        else {
-            return (
-                <TouchableOpacity onPress={toggleActive} style={styles.containerActive}>
-                    <View style={styles.touchable}>
-                        <Title exerciseName={workout.exerciseNames[exerciseId]} exerciseNum={exerciseId + 1} />
+    
+                </View>
+
+                <View style={styles.setContainer}>
+                    <TouchableOpacity style={styles.button} onPress={() => {if(setNum > 1) setSetNum(setNum - 1)}} >
+                        <Entypo name="arrow-with-circle-left" size={40} color={'#D9D9D4'}/>
+                    </TouchableOpacity>
+
+                    <View style={styles.button}>
+                        <Text style={styles.setTitle}>Set</Text>
+                        <Text style={styles.set}>{setNum}</Text>
                     </View>
 
-                    <View style={styles.row}>
-                        
-                        
-                        {/* Reps */}
-                        <View style={styles.container}>
-                            <Text style={styles.section}>Reps</Text>
-                            <TextInput style={styles.sectionInput} placeholder={workout.reps[exerciseId][setNum - 1].toString()} defaultValue={workout.reps[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={5} onEndEditing={text => changeReps(text)} />
-                        </View>
-        
-                        {/* Weight */}
-                        <View style={styles.container}>
-                            <Text style={styles.section}>Weight</Text>
-                            <TextInput style={styles.sectionInput} placeholder={workout.weights[exerciseId][setNum - 1].toString()} defaultValue={workout.weights[exerciseId][setNum - 1].toString()} inputMode='numeric' keyboardType='numeric' returnKeyType='done' maxLength={5} onEndEditing={text => changeWeight(text)} />
-                        </View>
-                        
-                        {/* RPE */}
-                        <View style={styles.container}>
-                            <Text style={styles.section}>RPE</Text>
-                            <TextInput style={styles.sectionInput} placeholder={workout.rpes[exerciseId][setNum - 1].toString()} defaultValue={workout.rpes[exerciseId][setNum - 1].toString()} keyboardType='numeric' inputMode='numeric' returnKeyType='done' maxLength={2} onEndEditing={text => changeRpe(text)} />
-                        </View>
-        
-                    </View>
-                    <View style={styles.row}>
-                        <TouchableOpacity style={styles.delete} onPress={() => removeSet()}>
-                            <View>
-                                <Text style={{textAlign: 'center', fontWeight: 700, color: 'white'}}>REMOVE SET</Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <View style={{flexDirection: 'row', flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-                            <TouchableOpacity onPress={() => {if(setNum > 1) setSetNum(setNum - 1)}} >
-                                <Image style={styles.button} source={require('../assets/left-arrow.png')} />
-                            </TouchableOpacity>
-        
-                            <View>
-                                <Text style={styles.setTitle}>Set</Text>
-                                <Text style={styles.set}>{setNum}</Text>
-                            </View>
-        
-                            <TouchableOpacity onPress={() => {addSet(); setSetNum(setNum + 1)}} >
-                                <Image style={styles.button} source={require('../assets/plus.png')} />
-                            </TouchableOpacity>
-                        </View>
-                        <TouchableOpacity style={styles.delete} onPress={() => Alert.alert("Delete this Exercise?", undefined, [{text: "Cancel", style: 'cancel'}, {text: "Delete", onPress: removeExercise}], {cancelable: true})}>
-                            <View>
-                                <Text style={{textAlign: 'center', fontWeight: 700, color: 'white'}}>DELETE EXERCISE</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </TouchableOpacity>
-            )
-        }
+                    <TouchableOpacity style={styles.button} onPress={() => {if(setNum < numSets) setSetNum(setNum + 1)}} >
+                        <Entypo name="arrow-with-circle-right" size={40} color={'#D9D9D4'}/>
+                    </TouchableOpacity>
+                </View>
+                <Menu>
+                    <MenuTrigger>
+                        <Entypo name="dots-three-horizontal" size={40} color={'#D9D9D4'}/>
+                    </MenuTrigger>
+                    <MenuOptions optionsContainerStyle={{borderRadius: 10, shadowColor: '#000',
+                        shadowOffset: {
+                            width: 0,
+                            height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 4,
+                        elevation: 5,}} customStyles={{optionText: {fontSize: 15, fontWeight: 500}}} >
+                        <MenuOption onSelect={() => addSet()} text="Add Set" customStyles={{optionWrapper: {borderRadius: 10}}} />
+                        <MenuOption onSelect={() => removeSet()} text="Delete Set" />
+                        <MenuOption onSelect={() => Alert.alert("Delete this Exercise?", undefined, [{text: "Cancel", style: 'cancel'}, {text: "Delete", onPress: removeExercise}], {cancelable: true})}>
+                            <Text style={{color: 'red', fontSize: 15, fontWeight: 500}}>Delete Exercise</Text>
+                        </MenuOption>
+                    </MenuOptions>
+                </Menu>
+            </TouchableOpacity>
+        );
         
     } else {
         return (
@@ -241,20 +185,26 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#363630',
     },
     set: {
         fontSize: 30,
-        fontWeight: '400',
         textAlign: 'center',
         fontWeight: '700',
+        color: '#D9D9D4'
     },
     setTitle: {
         fontSize: 20,
-        fontWeight: '400',
+        fontWeight: '700',
         textAlign: 'center',
+        color: '#D9D9D4'
+    },
+    setContainer: {
+        flexDirection: 'row',
+        height: 'auto'
     },
     containerActive: {
-        backgroundColor: '#fff',
+        backgroundColor: '#363630',
         alignItems: 'center',
         justifyContent: 'center',
         shadowColor: '#000',
@@ -270,16 +220,16 @@ const styles = StyleSheet.create({
     },
     touchable: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#363630',
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomWidth: 2,
-        borderColor: '#ebebeb',
+        borderColor: '#000',
         borderTopRightRadius: 10,
-        borderTopLeftRadius: 10
+        borderTopLeftRadius: 10,
     },
     containerInactive: {
-        backgroundColor: '#fff',
+        backgroundColor: '#363630',
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: "stretch",
@@ -297,6 +247,7 @@ const styles = StyleSheet.create({
     },
     title: {
         backgroundColor: '#c9c9c7',
+        color: '#D9D9D4'
     },
     row: {
         flexDirection: 'row',
@@ -304,9 +255,10 @@ const styles = StyleSheet.create({
     },
     section: {
         fontSize: 25,
-        fontWeight: '400',
+        fontWeight: '500',
         textAlign: 'center',
         marginVertical: 10,
+        color: '#D9D9D4'
     },
     sectionInput: {
         textAlign: 'center',
@@ -320,9 +272,10 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     button: {
-        width: 40,
-        height: 40,
-        resizeMode: 'contain',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        resizeMode: 'cover'
     },
     delete: {
         flex: 1,

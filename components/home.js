@@ -33,36 +33,36 @@ const Home = () => {
 
   return (
     
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#20201D', }}>
       {console.log(shallowRecovery)}
       <FlatList contentContainerStyle={styles.list} style={{alignSelf: 'stretch'}} data={shallowRecovery} renderItem={({item}) => (
         <View style={styles.recovery}>
           <View style={styles.row}>
             <TouchableOpacity style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
-              <MaterialCommunityIcons name="information-outline" color={'gray'} size={24} style={{marginLeft: 10}}/>
+              <MaterialCommunityIcons name="information-outline" color={'#D9D9D4'} size={24} style={{marginLeft: 10}}/>
             </TouchableOpacity>
             <View style={{flex: 4, justifyContent: 'center', alignItems: 'center'}}>
-              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{textAlign: 'center',  fontWeight: '600', fontSize: 25}}>{item.name}</Text>
+              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{textAlign: 'center',  fontWeight: '600', fontSize: 25, color: '#D9D9D4'}}>{item.name}</Text>
             </View>
             <TouchableOpacity style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}} onPress={() => Alert.alert("Delete this Option?", undefined, [{text: "Cancel", style: 'cancel'}, {text: "Delete", onPress: (() => handleRemoveRecovery(item.id))}], {cancelable: true})}>
-              <MaterialCommunityIcons name="trash-can-outline" color={'gray'} size={32} style={{marginRight: 10}}/>
+              <MaterialCommunityIcons name="trash-can-outline" color={'#D9D9D4'} size={32} style={{marginRight: 10}}/>
             </TouchableOpacity>
           </View>
           <View style={styles.ratings}>
             <TouchableOpacity style={{flex: 1, alignItems: 'center'}} onPress={() => handleAddRecoveryVal(item.id, 1)}>
-              <MaterialCommunityIcons name="emoticon-sad-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] === 1) ? 'black' : 'red'} size={48}/>
+              <MaterialCommunityIcons name="emoticon-sad-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] !== 1) ? '#B9B1D2' : '#D9D9D4'} size={48}/>
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1, alignItems: 'center'}} onPress={() => handleAddRecoveryVal(item.id, 2)}>
-              <MaterialCommunityIcons name="emoticon-confused-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] === 2) ? 'black' : 'orange'} size={48}/>
+              <MaterialCommunityIcons name="emoticon-confused-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] !== 2) ? '#B9B1D2' : '#D9D9D4'} size={48}/>
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1, alignItems: 'center'}} onPress={() => handleAddRecoveryVal(item.id, 3)}>
-              <MaterialCommunityIcons name="emoticon-neutral-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] === 3) ? 'black' : 'yellow'} size={48}/>
+              <MaterialCommunityIcons name="emoticon-neutral-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] !== 3) ? '#B9B1D2' : '#D9D9D4'} size={48}/>
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1, alignItems: 'center'}} onPress={() => handleAddRecoveryVal(item.id, 4)}>
-              <MaterialCommunityIcons name="emoticon-happy-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] === 4) ? 'black' : '#adff85'} size={48}/>
+              <MaterialCommunityIcons name="emoticon-happy-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] !== 4) ? '#B9B1D2' : '#D9D9D4'} size={48}/>
             </TouchableOpacity>
             <TouchableOpacity style={{flex: 1, alignItems: 'center'}} onPress={() => handleAddRecoveryVal(item.id, 5)}>
-              <MaterialCommunityIcons name="emoticon-excited-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] === 5) ? 'black' : 'green'} size={48}/>
+              <MaterialCommunityIcons name="emoticon-excited-outline" color={(item.vals[today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()] !== 5) ? '#B9B1D2' : '#D9D9D4'} size={48}/>
             </TouchableOpacity>
             
           </View>
@@ -97,7 +97,7 @@ const Home = () => {
       <TouchableOpacity style={styles.button} title='Add Workout' onPress={() => {
         setModalVisible(!modalVisible);
       }} > 
-        <Text>Add Recovery Option</Text>
+        <Text style={{fontWeight: '500', color: '#0B0B0A'}}>Add Recovery Option</Text>
       </TouchableOpacity>
     </View>
   );
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width - 20, 
     alignSelf: 'stretch', 
     alignItems: 'center',
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: "stretch",
@@ -122,7 +121,8 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
     margin: 3,
-    padding: 5
+    padding: 5,
+    backgroundColor: '#363630',
   },
   row: {
     flexDirection: 'row',
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     alignSelf: "stretch",
-
+    backgroundColor: '#B9B1D2'
   },
   nameInput: {
     textAlign: 'center',

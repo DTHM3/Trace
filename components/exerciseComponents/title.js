@@ -13,6 +13,7 @@ const Title = (props) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
+        color: '#D9D9D4'
     },
     title: {
         flex: 6,
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         margin: 10,
         textAlign: 'right',
+        color: '#D9D9D4'
     },
     titleNum: {
         flex: 1,
@@ -28,6 +30,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         textTransform: 'uppercase',
         margin: 10,
+        color: '#D9D9D4'
     },
 })
 
