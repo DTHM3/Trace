@@ -23,7 +23,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.dthm3.Trace"
+      "package": "com.dthm3.Trace",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,6 +34,11 @@
         "projectId": "fa8c4f16-12f5-40f4-8257-06d4290781d0"
       }
     },
-    "scheme": "Trace"
+    "scheme": "Trace",
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/perf",
+      "@react-native-firebase/crashlytics"
+    ]
   }
 }
