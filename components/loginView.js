@@ -18,22 +18,30 @@ const LoginView = () => {
 
     async function handleSignInWithGoogle() {
         const user = await AsyncStorage.getItem("@user");
+        console.log("user", user);
         if (!user) {
+            console.log("Response Type: " + response.type)
             if(response.type === "success") {
                 await getUserInfo(response.authentication.accessToken);
+                console.log('authenticated')
             }
+            console.log('response false')
         } else {
             setUserInfo(JSON.parse(user));
         }
     }
 
     const getUserInfo = async (token) => {
-        if (!token) return;
+        if (!token) {
+            console.log('no token')
+            return;
+        }
         try {
+            console.log('trying')
             const response = await fetch(
                 "https://www.googleapis.com/userinfo/v2/me",
                 {
-                    headers: { Authorization: `Bearer ${token}`}
+                    headers: { Authorization: `Bearer ${token}` },
                 }
             )
 
@@ -41,14 +49,18 @@ const LoginView = () => {
             await AsyncStorage.setItem("@user", JSON.stringify(user));
             setUserInfo(user);
         } catch (error) {
-
+            console.error(error)
         }
     }
 
     return (
         <View>
-            <Text>{JSON.stringify(userInfo)}</Text>
-            <Button title="Sign in with Google" onPress={promptAsync} />
+            
+            {!userInfo ? (<Button title="Sign in with Google" onPress={() => promptAsync()} />) : (
+                <Text>{JSON.stringify(userInfo, null, 2)}</Text>
+            )}
+            {// <Button title="delete local storage" onPress={async () => await AsyncStorage.removeItem("@user")} />
+            }
         </View>
     )
 }
