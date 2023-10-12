@@ -1,56 +1,70 @@
-import * as React from 'react';
-import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
 import { Button, View, Text } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import React, { useState, useEffect } from 'react';
+import auth from '@react-native-firebase/auth';
 
 const LoginView = () => {
-    WebBrowser.maybeCompleteAuthSession();
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
 
-    const [userInfo, setUserInfo] = React.useState(null)
-    const [request, response, promptAsync] = Google.useAuthRequest({
-        androidClientId: "901265718631-olr5fou31hjovtnj2l852h743bfu0n4i.apps.googleusercontent.com",
-        iosClientId: "901265718631-su29ctg3dk33qtd756sjuqb4mqp4c5kl.apps.googleusercontent.com",
-        webClientId: "901265718631-1e5smqkrdbmur2oaobcb0sco1mgdoeku.apps.googleusercontent.com"
-    })
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
 
-    React.useEffect(() => {handleSignInWithGoogle();}, [response])
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
-    async function handleSignInWithGoogle() {
-        const user = await AsyncStorage.getItem("@user");
-        if (!user) {
-            if(response.type === "success") {
-                await getUserInfo(response.authentication.accessToken);
-            }
-        } else {
-            setUserInfo(JSON.parse(user));
-        }
-    }
+  GoogleSignin.configure({
+    scopes: [
+      'https://www.googleapis.com/auth/drive',
+      'https://www.googleapis.com/auth/drive.file',
+      'https://www.googleapis.com/auth/drive.readonly',
+      'https://www.googleapis.com/auth/spreadsheets',
+      'https://www.googleapis.com/auth/spreadsheets.readonly',
+    ],
+    webClientId: '901265718631-1e5smqkrdbmur2oaobcb0sco1mgdoeku.apps.googleusercontent.com',
+  });
 
-    const getUserInfo = async (token) => {
-        if (!token) return;
-        try {
-            const response = await fetch(
-                "https://www.googleapis.com/userinfo/v2/me",
-                {
-                    headers: { Authorization: `Bearer ${token}`}
-                }
-            )
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+  
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+  
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
 
-            const user = await response.json();
-            await AsyncStorage.setItem("@user", JSON.stringify(user));
-            setUserInfo(user);
-        } catch (error) {
+  if (initializing) return null;
 
-        }
-    }
-
+  if (!user) {
     return (
-        <View>
-            <Text>{JSON.stringify(userInfo)}</Text>
-            <Button title="Sign in with Google" onPress={promptAsync} />
-        </View>
+      
+      <View>
+        <Button
+          title="Google Sign-In"
+          onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}
+        />
+        <Text>Login</Text>
+      </View>
     )
+  }
+  return (
+    <View>
+        <Button
+          title="Google Sign-In"
+          onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}
+        />
+        <Text>Welcome {user.email}</Text>
+      </View>
+  );
 }
 
 export default LoginView;
