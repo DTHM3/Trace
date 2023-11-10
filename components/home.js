@@ -34,7 +34,6 @@ const Home = () => {
   return (
     
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#20201D', }}>
-      {console.log(shallowRecovery)}
       <FlatList contentContainerStyle={styles.list} style={{alignSelf: 'stretch'}} data={shallowRecovery} renderItem={({item}) => (
         <View style={styles.recovery}>
           <View style={styles.row}>
