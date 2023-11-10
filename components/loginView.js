@@ -13,15 +13,12 @@ const LoginView = () => {
   const [user, setUser] = useState();
   const [signedIn, setSignedIn] = useState(false); // integer state
   const [listData, setListData] = useState(null);
-  const [allSeriesData, setAllSeriesData] = useState([]); 
-
 
   const getData = async (sheetId, sheetName) => {
     const gdrive = new GDrive();
     gdrive.accessToken = (await GoogleSignin.getTokens()).accessToken;
     // let result = await gdrive.files.getContent(sheetId, null, '1-1');
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${"Sheet1!A1:B2"}`;
-    console.log(url)
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}`; // !${topLeft}:${bottomRight}
     const headers = {
       Authorization: `Bearer ${gdrive.accessToken}`
     }
@@ -32,18 +29,13 @@ const LoginView = () => {
       .then((response) => response.json())
       .then((data) => {
         // Process the data from the Google Sheet
-        console.log(data);
+        data["values"].forEach(element => {
+          console.log(element);
+        });
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }
-
-  function formatResponse(response) {
-    const keys = response.values[0];
-    const data = response.values.slice(1);
-    const obj = data.map(arr => Object.assign({}, ...keys.map((k, i) => ({ [k]: arr[i] }))));
-    setAllSeriesData(obj);
   }
 
   let query = '';
@@ -115,7 +107,7 @@ const LoginView = () => {
   const ItemView = ({item}) => {
     return (
       // FlatList Item
-      <TouchableOpacity style={{padding: 10}} onPress={() => getData(item.id, item.name)}>
+      <TouchableOpacity style={{padding: 10}} onPress={() => getData(item.id, "Sheet1", )}>
         <Text>
           File Id: {item.id}
           {'\n'}
