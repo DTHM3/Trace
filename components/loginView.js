@@ -13,6 +13,7 @@ const LoginView = () => {
   const [user, setUser] = useState();
   const [signedIn, setSignedIn] = useState(false); // integer state
   const [listData, setListData] = useState(null);
+  const [sheetData, setSheetData] = useState([]);
 
   const getData = async (sheetId, sheetName) => {
     const gdrive = new GDrive();
@@ -29,13 +30,26 @@ const LoginView = () => {
       .then((response) => response.json())
       .then((data) => {
         // Process the data from the Google Sheet
-        data["values"].forEach(element => {
-          console.log(element);
-        });
+        sheetData = data["values"];
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
+  }
+
+  // Return array of objects row:, column:
+  const findAllInstances = (array, value) => {
+    const instances = [];
+
+    for (let i = 0; i < array.length; i++) {
+      for (let j = 0; j < array[i].length; j++) {
+        if (array[i][j] === value) {
+          instances.push({ row: i, column: j });
+        }
+      }
+    }
+
+    return instances;
   }
 
   let query = '';
@@ -109,11 +123,7 @@ const LoginView = () => {
       // FlatList Item
       <TouchableOpacity style={{padding: 10}} onPress={() => getData(item.id, "Sheet1", )}>
         <Text>
-          File Id: {item.id}
-          {'\n'}
           File Name: {item.name}
-          {'\n'}
-          Mine Type: {item.mimeType}
         </Text>
       </TouchableOpacity>
     );
