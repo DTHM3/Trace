@@ -7,6 +7,9 @@ import {
   GDrive,
   ListQueryBuilder,
 } from "@robinbobin/react-native-google-drive-api-wrapper";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 const LoginView = () => {
   const [initializing, setInitializing] = useState(true);
@@ -30,26 +33,13 @@ const LoginView = () => {
       .then((response) => response.json())
       .then((data) => {
         // Process the data from the Google Sheet
-        sheetData = data["values"];
+        setSheetData(data.values);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }
 
-  // Return array of objects row:, column:
-  const findAllInstances = (array, value) => {
-    const instances = [];
-
-    for (let i = 0; i < array.length; i++) {
-      for (let j = 0; j < array[i].length; j++) {
-        if (array[i][j] === value) {
-          instances.push({ row: i, column: j });
-        }
-      }
-    }
-
-    return instances;
+    props.navigation.navigate('Select Info', {sheetData: sheetData});
   }
 
   let query = '';
@@ -142,7 +132,7 @@ const LoginView = () => {
     );
   };
 
-  const RetComponent = () => {
+  const LoginSearch = () => {
     if (!user) {
       return (
       <View>
@@ -199,9 +189,13 @@ const LoginView = () => {
 
   if (initializing) return null;
   return (
-    <View>
-      <RetComponent />
-    </View>
+    <Stack.Navigator screenOptions={{headerTitleAlign: 'center', headerStyle: { backgroundColor: '#0B0B0A' }, headerTintColor: '#B9B1D2',} }>
+      <Stack.Screen name="Login" component={LoginSearch} />
+      <Stack.Screen name="Select Info">
+        {(props) => <SelectInfo {...props} />}
+      </Stack.Screen>
+    </Stack.Navigator>
+    
   )
 }
 
